@@ -4,7 +4,8 @@
   "description": "An application for authenticating user",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "Ikhsan Putra",
   "license": "ISC",
@@ -18,5 +19,8 @@
     "mongoose": "^5.9.5",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
