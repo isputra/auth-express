@@ -2,10 +2,10 @@
   "name": "auth-express",
   "version": "1.0.0",
   "description": "An application for authenticating user",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "author": "Ikhsan Putra",
   "license": "ISC",
