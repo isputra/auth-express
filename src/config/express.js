@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const flash = require('connect-flash');
@@ -11,6 +12,7 @@ const app = express();
 // ejs
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../views'));
 
 // for parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false })); 
