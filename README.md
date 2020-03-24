@@ -1,6 +1,11 @@
 # Authentication using Passport and Nodejs
 
-This is a boilerplate code to handle authentication using passportjs. 
+This is a boilerplate code in nodejs that handle authentication. There are several modules used in this project :
+* Express 
+* EJS for templating
+* Passport to handle authentication and implements local strategy
+* Mongoose to handle database (Mongodb) connection 
+* Bcryptjs for hashing the password
 
 ## Basic Build Instructions
 
