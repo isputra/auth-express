@@ -1,6 +1,10 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
-const mongoose = require('mongoose');
+const flash = require('connect-flash');
+const session = require('express-session');
+
+const mongoose = require('./config/mongoose');
+
 const routes = require('./routes');
 const routeUser = require('./routes/user');
 
@@ -8,11 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // mongoose
-mongoose.connect('mongodb://localhost:27017/test', 
-    { 
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
+mongoose.connect()
     .then(() => console.log('Mongoose connected...'))
     .catch(err => console.error(err))
 
@@ -23,6 +23,23 @@ app.set('view engine', 'ejs');
 // for parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false })); 
 
+// express session
+app.use(session({
+    secret: 'secret-session',
+    resave: true,
+    saveUninitialized: true
+}))
+
+// flash
+app.use(flash());
+
+// Global variables
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    next();
+});
+  
 // Routes
 app.use('/',routes);
 app.use('/users',routeUser);
