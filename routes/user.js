@@ -31,8 +31,6 @@ router.post('/register', (req, res) => {
     // check password
     if(password.length < 6) errors.push({msg: "Password should be at least 6 characters."});
 
-    // check if email exist
-
     // check if there is error
     if(errors.length > 0) {
         return res.render('register', {
@@ -44,6 +42,7 @@ router.post('/register', (req, res) => {
         });
     }
 
+    // check if email exist
     User.findOne({email})
     .then( user => {
         if(user) {
@@ -55,26 +54,25 @@ router.post('/register', (req, res) => {
                 password,
                 password_confirm
             });    
-        } else {
-            const saltRounds = 10;
-            bcrypt.hash(password, saltRounds).then( hash => {
-                const newUser = {
-                    name,
-                    email,
-                    password: hash,
-                };
-                User.create(newUser).then(user => {
-                    console.log(user);
-                    res.send("User created..");
-                }).catch(error => {
-                    console.error(error);
-                    res.send(error);
-                })
-            }).catch( error => {
+        }
+        const saltRounds = 10;
+        bcrypt.hash(password, saltRounds).then( hash => {
+            const newUser = {
+                name,
+                email,
+                password: hash,
+            };
+            User.create(newUser).then(user => {
+                req.flash('success_msg', "You are now registered and can log in")
+                res.redirect("/users/login");
+            }).catch(error => {
                 console.error(error);
                 res.send(error);
-            });
-        }
+            })
+        }).catch( error => {
+            console.error(error);
+            res.send(error);
+        });
     })
 });
 
