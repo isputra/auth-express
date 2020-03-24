@@ -3,11 +3,15 @@ const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const flash = require('connect-flash');
 const session = require('express-session');
+const passport = require('passport');
 
 const routes = require('../routes');
 const routeUser = require('../routes/user');
 
 const app = express();
+
+// Passport config
+require('./passport')(passport);
 
 // ejs
 app.use(expressLayouts);
@@ -22,7 +26,11 @@ app.use(session({
     secret: 'secret-session',
     resave: true,
     saveUninitialized: true
-}))
+}));
+
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Flash
 app.use(flash());
@@ -31,6 +39,7 @@ app.use(flash());
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
     next();
 });
   
