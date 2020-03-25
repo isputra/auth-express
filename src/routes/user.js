@@ -2,21 +2,22 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const User = require('../models/User');
+const { checkAuthenticated, checkNotAuthenticated } = require('../config/auth');
 
 const router = express.Router();
 
 // Login Page
-router.get('/login', (req, res) => {
+router.get('/login', checkNotAuthenticated,(req, res) => {
     res.render('login');
 });
 
 // Register Page
-router.get('/register', (req, res) => {
+router.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register');
 });
 
 // Register Handle
-router.post('/register', (req, res) => {
+router.post('/register', checkNotAuthenticated, (req, res) => {
     const { name, email, password, password_confirm } = req.body;
     let errors = [];
 
@@ -78,7 +79,7 @@ router.post('/register', (req, res) => {
 });
 
 // Login handle
-router.post('/login', (req, res, next) => {
+router.post('/login', checkNotAuthenticated, (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/dashboard',
         failureRedirect: '/users/login',
@@ -87,7 +88,7 @@ router.post('/login', (req, res, next) => {
 });
 
 // Logout handle
-router.get('/logout', (req, res,next) => {
+router.get('/logout', checkAuthenticated, (req, res,next) => {
     req.logout();
     req.flash('success_msg', "You are logged out");
     res.redirect('/users/login');
