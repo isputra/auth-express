@@ -12,5 +12,6 @@ module.exports = {
   mongo: {
     uri: process.env.MONGO_URI,
   },
+  session_secret: process.env.SESSION_SECRET,
   oauth_url: process.env.OAUTH_URL
 };

@@ -9,6 +9,7 @@ const MongoStore = require('connect-mongo')(session);
 const connection = require('./mongoose').connect();
 const routes = require('../routes');
 const routeUser = require('../routes/user');
+const { session_secret } = require('../config/vars');
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Express session
 app.use(session({
-    secret: 'secret-session',
+    secret: session_secret,
     resave: true,
     saveUninitialized: true,
     store: new MongoStore({mongooseConnection: connection}),
