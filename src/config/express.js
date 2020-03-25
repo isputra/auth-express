@@ -4,7 +4,9 @@ const expressLayouts = require('express-ejs-layouts');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+const MongoStore = require('connect-mongo')(session);
 
+const connection = require('./mongoose').connect();
 const routes = require('../routes');
 const routeUser = require('../routes/user');
 
@@ -25,7 +27,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(session({
     secret: 'secret-session',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new MongoStore({mongooseConnection: connection}),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
 }));
 
 // Passport
