@@ -4,9 +4,12 @@ const expressLayouts = require('express-ejs-layouts');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+const MongoStore = require('connect-mongo')(session);
 
+const connection = require('./mongoose').connect();
 const routes = require('../routes');
 const routeUser = require('../routes/user');
+const { session_secret } = require('../config/vars');
 
 const app = express();
 
@@ -23,9 +26,13 @@ app.use(express.urlencoded({ extended: false }));
 
 // Express session
 app.use(session({
-    secret: 'secret-session',
+    secret: session_secret,
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new MongoStore({mongooseConnection: connection}),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
 }));
 
 // Passport
