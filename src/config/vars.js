@@ -1,17 +1,17 @@
-const path = require('path');
+const path = require("path");
 
 // import .env variables
-require('dotenv-safe').config({
-  path: path.join(__dirname, '../../.env'),
-  sample: path.join(__dirname, '../../.env.example'),
+require("dotenv-safe").config({
+    path: path.join(__dirname, "../../.env"),
+    sample: path.join(__dirname, "../../.env.example"),
 });
 
 module.exports = {
-  env: process.env.NODE_ENV,
-  port: process.env.PORT,
-  mongo: {
-    uri: process.env.MONGO_URI,
-  },
-  session_secret: process.env.SESSION_SECRET,
-  oauth_url: process.env.OAUTH_URL
+    env: process.env.NODE_ENV,
+    port: process.env.PORT,
+    mongo: {
+        uri: process.env.MONGO_URI,
+    },
+    session_secret: process.env.SESSION_SECRET,
+    oauth_url: process.env.OAUTH_URL,
 };
